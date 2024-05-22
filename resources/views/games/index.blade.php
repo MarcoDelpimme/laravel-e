@@ -29,45 +29,53 @@
 
         </div>
     @endsession
-    <table>
-        <thead>
-            <th>GAME</th>
-            <th>GENRE</th>
-            <th>PRICE</th>
-            <th>DURATION</th>
-        </thead>
 
-
-
-        @foreach ($games as $game)
+    <table class="table">
+        <thead class="text-center">
             <tr>
-
-                <td> <a href="{{ route('games.show', $game->id) }}">{{ $game->name }}</a></td>
-
-                <td>{{ $game->genre }}</td>
-                <td>{{ $game->price }} $</td>
-                <td>{{ $game->duration }} h</td>
+                <th scope="col">#</th>
+                <th scope="col">GAME</th>
+                <th scope="col">GENRE</th>
+                <th scope="col">PRICE</th>
+                <th scope="col">DURATION</th>
                 @auth
-                    @if (Auth::user()->id == $game->user_id)
-                        <td>
-                            <a href="{{ route('games.edit', $game->id) }}"><button class="btn btn-warning">Edit</button></a>
-                        </td>
-                    @endif
-
-                @endauth
-
-                @auth
-                    @if (Auth::user()->id == $game->user_id)
-                        <td>
-                            <form action="{{ route('games.destroy', $game->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')<button type="submit" class="btn btn-danger">Delete</button></form>
-                        </td>
-                    @endif
+                    <th scope="col">ACTIONS</th>
                 @endauth
 
             </tr>
-        @endforeach
+        </thead>
+        <tbody>
+            @foreach ($games as $game)
+                <tr class="text-center">
+                    <th scope="row">{{ $game->id }}</th>
+                    <td> <a href="{{ route('games.show', $game->id) }}">{{ $game->name }}</a></td>
+                    <td>{{ $game->genre }}</td>
+                    <td>{{ $game->price }} $</td>
+                    <td>{{ $game->duration }} h</td>
+                    @auth
+                        @if (Auth::user()->id == $game->user_id)
+                            <td class="row justify-content-center">
+                                <div class="col-auto"> <a href="{{ route('games.edit', $game->id) }}"><button
+                                            class="btn btn-warning">Edit</button></a></div>
+                        @endif
+                    @endauth
+                    @auth
+                        @if (Auth::user()->id == $game->user_id)
+                            <div class="col-auto">
+                                <form action="{{ route('games.destroy', $game->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')<button type="submit" class="btn btn-danger">Delete</button></form>
+                            </div>
+                            </td>
+                        @endif
+
+                    @endauth
+                </tr>
+            @endforeach
+        </tbody>
     </table>
+
+
+
     {{ $games->links() }}
 @endsection
