@@ -21,6 +21,7 @@ class GamesSeeder extends Seeder
                 'duration' => fake()->numberBetween(1, 10),
                 'genre' => fake()->text(10),
                 'price' => fake()->numberBetween(1, 10),
+                'user_id' => fake()->numberBetween(1, 10),
             ]);
         };
     }
